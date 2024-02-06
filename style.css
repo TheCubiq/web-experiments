@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope');
+
+
+body {
+  background: rgb(2, 6, 23);
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  
+  font-family: "Manrope", sans-serif;
+  color: white;
+}
+
+section {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  /* font-size: 3em; */
+  font-size: clamp(1.5rem,4vw + 1rem,5rem);
+  color: #6415ff;
+  filter: drop-shadow(0 0 5px #80F);
+  animation: flicker 2s infinite alternate;
+}
+
+@keyframes flicker {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
