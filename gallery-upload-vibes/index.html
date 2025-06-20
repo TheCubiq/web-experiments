@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery Optimizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Image Gallery Optimizer</h1>
+            <p>Drag & drop images to compress them to WebP and test optimization speed</p>
+        </div>
+
+        <div class="mobile-warning">
+            📱 <strong>Mobile Tip:</strong> For best results with many images, try uploading in smaller batches (20-30 at a time) to avoid memory issues.
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-icon">📁</div>
+            <h3>Drop images here or click to select</h3>
+            <p>Supports JPG, PNG, GIF - Will optimize to WebP</p>
+            <input type="file" id="fileInput" multiple accept="image/*" title="Select image files">
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="progress" id="progress">
+            <div class="progress-text" id="progressText">Processing images...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="batch-info" id="batchInfo"></div>
+        </div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalImages">0</div>
+                <div class="stat-label">Total Images</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="originalSize">0 MB</div>
+                <div class="stat-label">Original Size</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="compressedSize">0 MB</div>
+                <div class="stat-label">Compressed Size</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="compressionRatio">0%</div>
+                <div class="stat-label">Space Saved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="processingTime">0ms</div>
+                <div class="stat-label">Processing Time</div>
+            </div>
+        </div>
+
+        <div class="gallery" id="gallery">
+            <div class="controls">
+                <button class="btn" id="prevBtn">← Previous</button>
+                <span id="imageCounter">1 / 1</span>
+                <button class="btn" id="nextBtn">Next →</button>
+                <button class="btn" id="resetBtn">Reset All</button>
+            </div>
+
+            <div class="image-viewer">
+                <img id="currentImage" class="viewer-image" alt="Optimized image">
+                <div class="image-info" id="imageInfo"></div>
+            </div>
+
+            <div class="thumbnail-strip" id="thumbnailStrip"></div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
