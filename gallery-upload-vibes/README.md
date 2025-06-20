@@ -43,11 +43,13 @@ Common utility functions for image processing, mobile detection, and formatting.
 
 - **Drag & Drop**: Drop images directly onto the interface
 - **Batch Processing**: Handles large image collections efficiently
-- **WebP Conversion**: Automatic optimization to WebP format
+- **Smart Format Selection**: WebP for modern browsers, JPEG fallback for iOS
+- **WebP Polyfill**: Automatic format detection and fallback for iOS devices
 - **Mobile Friendly**: Optimized batch sizes for mobile devices
 - **Gallery Navigation**: Keyboard and click navigation
 - **Real-time Stats**: Shows compression ratios and processing times
 - **Image Management**: Remove individual images from the collection
+- **Platform Awareness**: Shows appropriate warnings and tips for different devices
 
 ## Usage
 
@@ -58,10 +60,32 @@ Common utility functions for image processing, mobile detection, and formatting.
 5. Remove individual images with the × button
 6. Reset all images with the Reset button
 
-## Browser Compatibility
+## Browser Compatibility & WebP Support
+
+The application automatically detects WebP support and provides smart fallbacks:
+
+### WebP Support Detection
+- **Modern Browsers**: Uses WebP format for optimal compression
+- **iOS/Safari**: Automatically falls back to JPEG for compatibility
+- **Legacy Browsers**: JPEG fallback ensures universal support
+
+### Platform-Specific Optimizations
+- **iOS Devices**: 
+  - Uses JPEG compression (85% quality)
+  - Shows user-friendly notice about format choice
+  - Optimized batch sizes for mobile performance
+- **Android/Desktop**: 
+  - Prefers WebP format for better compression
+  - Larger batch sizes for faster processing
+
+### Technical Implementation
+The WebP detection uses a small base64-encoded WebP image to test browser support:
+- If the test image loads successfully, WebP is supported
+- If it fails, the app falls back to JPEG compression
+- This ensures reliable detection across all platforms
 
 Requires a modern browser with support for:
 - ES6 Modules
 - Canvas API
 - File API
-- WebP format support
+- Either WebP format support OR JPEG fallback capability

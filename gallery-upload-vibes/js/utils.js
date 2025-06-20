@@ -4,6 +4,14 @@ export class ImageUtils {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
+    static isIOS() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+
+    static isSafari() {
+        return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    }
+
     static formatSize(bytes) {
         if (bytes === 0) return '0 B';
         const k = 1024;
@@ -22,9 +30,16 @@ export class ImageUtils {
             width: Math.round(width * ratio),
             height: Math.round(height * ratio)
         };
-    }
+    }    static async createThumbnail(img, format = null) {
+        // Default format if not provided
+        if (!format) {
+            if (ImageUtils.isIOS()) {
+                format = { format: 'image/jpeg', quality: 0.8, extension: 'JPEG' };
+            } else {
+                format = { format: 'image/webp', quality: 0.8, extension: 'WebP' };
+            }
+        }
 
-    static async createThumbnail(img) {
         return new Promise((resolve, reject) => {
             try {
                 const canvas = document.createElement('canvas');
@@ -48,7 +63,7 @@ export class ImageUtils {
                     } else {
                         reject(new Error('Failed to create thumbnail'));
                     }
-                }, 'image/webp', 0.8);
+                }, format.format, format.quality);
                 
             } catch (error) {
                 reject(error);

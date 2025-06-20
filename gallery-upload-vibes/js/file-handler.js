@@ -28,9 +28,7 @@ export class FileHandler {
             this.elements.dropZone.classList.remove('dragover');
             if (!this.isProcessing) this.handleFiles(e.dataTransfer.files);
         });
-    }
-
-    async handleFiles(files, onFilesProcessed) {
+    }    async handleFiles(files, onFilesProcessed) {
         if (files.length === 0 || this.isProcessing) return;
 
         const fileArray = Array.from(files).filter(file => file.type.startsWith('image/'));
@@ -40,8 +38,10 @@ export class FileHandler {
             return;
         }
 
-        // Warn about large batches on mobile
-        if (this.isMobile() && fileArray.length > 30) {
+        // Show platform-specific warnings
+        if (this.isIOS() && fileArray.length > 20) {
+            this.showError(`iOS Notice: Processing ${fileArray.length} images. Using JPEG compression for better compatibility. Consider uploading in smaller batches for optimal performance.`);
+        } else if (this.isMobile() && fileArray.length > 30) {
             this.showError(`Warning: Processing ${fileArray.length} images on mobile may cause issues. Consider uploading in smaller batches.`);
         }
 
@@ -84,5 +84,9 @@ export class FileHandler {
 
     isMobile() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    isIOS() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     }
 }

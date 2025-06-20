@@ -4,6 +4,42 @@ import { ImageUtils } from './utils.js';
 export class ImageProcessor {
     constructor() {
         this.batchSize = ImageUtils.isMobile() ? 5 : 10; // Smaller batches on mobile
+        this.webpSupported = null; // Will be set after detection
+        this.init();
+    }
+
+    async init() {
+        this.webpSupported = await this.detectWebPSupport();
+    }
+
+    // Detect WebP support in the browser
+    async detectWebPSupport() {
+        return new Promise((resolve) => {
+            const webP = new Image();
+            webP.onload = webP.onerror = function () {
+                resolve(webP.height === 2);
+            };
+            webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+        });
+    }
+
+    // Get the best supported format and quality
+    getOptimalFormat() {
+        // For iOS devices that don't support WebP, use JPEG
+        if (ImageUtils.isIOS() && !this.webpSupported) {
+            return {
+                format: 'image/jpeg',
+                quality: 0.85,
+                extension: 'JPEG'
+            };
+        }
+        
+        // For other browsers, prefer WebP
+        return {
+            format: 'image/webp',
+            quality: 0.85,
+            extension: 'WebP'
+        };
     }
 
     async processBatches(files, progressCallback, batchInfoCallback) {
@@ -77,6 +113,7 @@ export class ImageProcessor {
                     canvas.width = width;
                     canvas.height = height;
                     ctx.drawImage(img, 0, 0, width, height);
+                      const format = this.getOptimalFormat();
                     
                     canvas.toBlob(async (blob) => {
                         if (!blob) {
@@ -86,8 +123,8 @@ export class ImageProcessor {
                         
                         const url = URL.createObjectURL(blob);
                         
-                        // Create thumbnail
-                        const thumbnailUrl = await ImageUtils.createThumbnail(img);
+                        // Create thumbnail with the same format
+                        const thumbnailUrl = await ImageUtils.createThumbnail(img, format);
                         
                         resolve({
                             id: Date.now() + Math.random(),
@@ -98,9 +135,9 @@ export class ImageProcessor {
                             thumbnailUrl: thumbnailUrl,
                             width: width,
                             height: height,
-                            type: 'WebP'
+                            type: format.extension
                         });
-                    }, 'image/webp', 0.85);
+                    }, format.format, format.quality);
                     
                 } catch (error) {
                     reject(error);

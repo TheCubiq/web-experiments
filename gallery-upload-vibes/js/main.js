@@ -5,16 +5,20 @@ import { UIManager } from './ui-manager.js';
 import { ImageUtils } from './utils.js';
 
 // Main application class that coordinates all modules
-export class ImageOptimizer {
-    constructor() {
+export class ImageOptimizer {    constructor() {
         this.images = [];
         this.totalOriginalSize = 0;
         this.totalCompressedSize = 0;
         this.startTime = 0;
         
         this.initializeElements();
-        this.initializeModules();
+        this.init();
+    }
+
+    async init() {
+        await this.initializeModules();
         this.bindEvents();
+        this.showPlatformWarnings();
     }
 
     initializeElements() {
@@ -43,10 +47,10 @@ export class ImageOptimizer {
             compressionRatio: document.getElementById('compressionRatio'),
             processingTime: document.getElementById('processingTime')
         };
-    }
-
-    initializeModules() {
+    }    async initializeModules() {
         this.imageProcessor = new ImageProcessor();
+        await this.imageProcessor.init(); // Wait for WebP detection
+        
         this.gallery = new Gallery(this.elements);
         this.fileHandler = new FileHandler(this.elements);
         this.uiManager = new UIManager(this.elements);
@@ -66,6 +70,14 @@ export class ImageOptimizer {
     async processFiles(fileArray) {
         this.startTime = performance.now();
         this.uiManager.showProgress();
+        
+        // Show format info to user
+        const format = this.imageProcessor.getOptimalFormat();
+        const formatMessage = format.extension === 'JPEG' 
+            ? `Optimizing to ${format.extension} (WebP not supported on this device)`
+            : `Optimizing to ${format.extension}`;
+        
+        this.uiManager.updateProgress(0, formatMessage);
         
         try {
             const newImages = await this.imageProcessor.processBatches(
@@ -155,5 +167,15 @@ export class ImageOptimizer {
         this.gallery.hide();
         this.fileHandler.resetDropZone();
         this.elements.fileInput.value = '';
+    }
+
+    showPlatformWarnings() {
+        // Show iOS warning if on iOS device
+        if (ImageUtils.isIOS()) {
+            const iosWarning = document.querySelector('.ios-warning');
+            if (iosWarning) {
+                iosWarning.style.display = 'block';
+            }
+        }
     }
 }
