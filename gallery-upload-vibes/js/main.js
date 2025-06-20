@@ -12,13 +12,9 @@ export class ImageOptimizer {    constructor() {
         this.startTime = 0;
         
         this.initializeElements();
-        this.init();
-    }
-
-    async init() {
-        await this.initializeModules();
+        this.initializeModules();
         this.bindEvents();
-        this.showPlatformWarnings();
+        this.initializeCompressionSettings();
     }
 
     initializeElements() {
@@ -40,6 +36,11 @@ export class ImageOptimizer {    constructor() {
             resetBtn: document.getElementById('resetBtn'),
             imageCounter: document.getElementById('imageCounter'),
             
+            // Compression controls
+            qualitySlider: document.getElementById('qualitySlider'),
+            qualityValue: document.getElementById('qualityValue'),
+            formatSelect: document.getElementById('formatSelect'),
+            
             // Stats elements
             totalImages: document.getElementById('totalImages'),
             originalSize: document.getElementById('originalSize'),
@@ -47,17 +48,27 @@ export class ImageOptimizer {    constructor() {
             compressionRatio: document.getElementById('compressionRatio'),
             processingTime: document.getElementById('processingTime')
         };
-    }    async initializeModules() {
+    }
+
+    initializeModules() {
         this.imageProcessor = new ImageProcessor();
-        await this.imageProcessor.init(); // Wait for WebP detection
-        
         this.gallery = new Gallery(this.elements);
         this.fileHandler = new FileHandler(this.elements);
         this.uiManager = new UIManager(this.elements);
-    }
-
-    bindEvents() {
+    }    bindEvents() {
         this.elements.resetBtn.addEventListener('click', () => this.reset());
+        
+        // Quality slider event
+        this.elements.qualitySlider.addEventListener('input', (e) => {
+            const quality = parseInt(e.target.value);
+            this.elements.qualityValue.textContent = `${quality}%`;
+            this.updateCompressionSettings();
+        });
+        
+        // Format selection event
+        this.elements.formatSelect.addEventListener('change', () => {
+            this.updateCompressionSettings();
+        });
         
         // Set up file handler callback
         this.fileHandler.handleFiles = this.fileHandler.handleFiles.bind(this.fileHandler);
@@ -66,18 +77,28 @@ export class ImageOptimizer {    constructor() {
             await originalHandleFiles(files, this.processFiles.bind(this));
         };
     }
+    
+    updateCompressionSettings() {
+        const quality = parseInt(this.elements.qualitySlider.value);
+        const format = this.elements.formatSelect.value;
+        this.imageProcessor.updateSettings(quality, format);
+        
+        // Update the drop zone text to reflect current settings
+        const formatName = this.imageProcessor.getFormatName(format);
+        const dropText = this.elements.dropZone.querySelector('p');
+        if (dropText) {
+            dropText.textContent = `Supports JPG, PNG, GIF - Will optimize to ${formatName} (${quality}% quality)`;
+        }
+    }
+    
+    initializeCompressionSettings() {
+        // Set initial values and update the processor
+        this.updateCompressionSettings();
+    }
 
     async processFiles(fileArray) {
         this.startTime = performance.now();
         this.uiManager.showProgress();
-        
-        // Show format info to user
-        const format = this.imageProcessor.getOptimalFormat();
-        const formatMessage = format.extension === 'JPEG' 
-            ? `Optimizing to ${format.extension} (WebP not supported on this device)`
-            : `Optimizing to ${format.extension}`;
-        
-        this.uiManager.updateProgress(0, formatMessage);
         
         try {
             const newImages = await this.imageProcessor.processBatches(
@@ -167,15 +188,5 @@ export class ImageOptimizer {    constructor() {
         this.gallery.hide();
         this.fileHandler.resetDropZone();
         this.elements.fileInput.value = '';
-    }
-
-    showPlatformWarnings() {
-        // Show iOS warning if on iOS device
-        if (ImageUtils.isIOS()) {
-            const iosWarning = document.querySelector('.ios-warning');
-            if (iosWarning) {
-                iosWarning.style.display = 'block';
-            }
-        }
     }
 }

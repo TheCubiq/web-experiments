@@ -1,44 +1,58 @@
 import { ImageUtils } from './utils.js';
 
-// Handles image optimization and batch processing
-export class ImageProcessor {
-    constructor() {
+// Handles image optimization and batch processing using browser-image-compression
+export class ImageProcessor {    constructor() {
         this.batchSize = ImageUtils.isMobile() ? 5 : 10; // Smaller batches on mobile
-        this.webpSupported = null; // Will be set after detection
-        this.init();
-    }
-
-    async init() {
-        this.webpSupported = await this.detectWebPSupport();
-    }
-
-    // Detect WebP support in the browser
-    async detectWebPSupport() {
-        return new Promise((resolve) => {
-            const webP = new Image();
-            webP.onload = webP.onerror = function () {
-                resolve(webP.height === 2);
-            };
-            webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
-        });
-    }
-
-    // Get the best supported format and quality
-    getOptimalFormat() {
-        // For iOS devices that don't support WebP, use JPEG
-        if (ImageUtils.isIOS() && !this.webpSupported) {
-            return {
-                format: 'image/jpeg',
-                quality: 0.85,
-                extension: 'JPEG'
-            };
-        }
         
-        // For other browsers, prefer WebP
-        return {
+        // Default settings
+        this.settings = {
+            quality: 0.8, // 80%
             format: 'image/webp',
-            quality: 0.85,
-            extension: 'WebP'
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920
+        };
+    }
+    
+    // Update compression settings
+    updateSettings(quality, format) {
+        this.settings.quality = quality / 100; // Convert percentage to decimal
+        this.settings.format = format;
+        
+        // Adjust max size based on format
+        switch (format) {
+            case 'image/webp':
+                this.settings.maxSizeMB = 1;
+                break;
+            case 'image/jpeg':
+                this.settings.maxSizeMB = 1.5;
+                break;
+            case 'image/png':
+                this.settings.maxSizeMB = 3; // PNG is larger
+                break;
+        }
+    }
+    
+    // Get current compression options
+    getCompressionOptions() {
+        return {
+            maxSizeMB: this.settings.maxSizeMB,
+            maxWidthOrHeight: this.settings.maxWidthOrHeight,
+            useWebWorker: true,
+            fileType: this.settings.format,
+            initialQuality: this.settings.quality,
+            alwaysKeepResolution: false
+        };
+    }
+    
+    // Get thumbnail compression options
+    getThumbnailOptions() {
+        return {
+            maxSizeMB: 0.05,
+            maxWidthOrHeight: 200,
+            useWebWorker: true,
+            fileType: 'image/webp', // Always use WebP for thumbnails for efficiency
+            initialQuality: 0.7,
+            alwaysKeepResolution: false
         };
     }
 
@@ -96,56 +110,73 @@ export class ImageProcessor {
         }
         
         return batchResults;
-    }
-
-    async optimizeImage(file) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
+    }    async optimizeImage(file) {
+        try {
+            // Use browser-image-compression for the main optimization
+            const compressionOptions = this.getCompressionOptions();
+            const compressedFile = await imageCompression(file, compressionOptions);
             
-            img.onload = async () => {
-                try {
-                    // Create main optimized image
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    let { width, height } = ImageUtils.calculateDimensions(img.width, img.height, 1920);
-                    
-                    canvas.width = width;
-                    canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-                      const format = this.getOptimalFormat();
-                    
-                    canvas.toBlob(async (blob) => {
-                        if (!blob) {
-                            reject(new Error('Failed to create blob'));
-                            return;
-                        }
-                        
-                        const url = URL.createObjectURL(blob);
-                        
-                        // Create thumbnail with the same format
-                        const thumbnailUrl = await ImageUtils.createThumbnail(img, format);
-                        
-                        resolve({
-                            id: Date.now() + Math.random(),
-                            name: file.name,
-                            originalSize: file.size,
-                            compressedSize: blob.size,
-                            url: url,
-                            thumbnailUrl: thumbnailUrl,
-                            width: width,
-                            height: height,
-                            type: format.extension
-                        });
-                    }, format.format, format.quality);
-                    
-                } catch (error) {
-                    reject(error);
-                }
+            // Create URLs for the compressed image
+            const url = URL.createObjectURL(compressedFile);
+            
+            // Create an image element to get dimensions
+            const img = await this.loadImage(url);
+            
+            // Create thumbnail using browser-image-compression
+            const thumbnailUrl = await this.createOptimizedThumbnail(file);
+            
+            // Get file extension for display
+            const formatName = this.getFormatName(this.settings.format);
+            
+            return {
+                id: Date.now() + Math.random(),
+                name: file.name,
+                originalSize: file.size,
+                compressedSize: compressedFile.size,
+                url: url,
+                thumbnailUrl: thumbnailUrl,
+                width: img.width,
+                height: img.height,
+                type: formatName
             };
             
-            img.onerror = () => reject(new Error(`Failed to load image: ${file.name}`));
-            img.src = URL.createObjectURL(file);
+        } catch (error) {
+            console.error(`Error optimizing ${file.name}:`, error);
+            throw error;
+        }
+    }
+    
+    // Create optimized thumbnail using browser-image-compression
+    async createOptimizedThumbnail(file) {
+        try {
+            const thumbnailOptions = this.getThumbnailOptions();
+            const compressedThumbnail = await imageCompression(file, thumbnailOptions);
+            return URL.createObjectURL(compressedThumbnail);
+        } catch (error) {
+            console.error('Error creating optimized thumbnail:', error);
+            // Fallback to utility method
+            const img = await this.loadImage(URL.createObjectURL(file));
+            return await ImageUtils.createThumbnailFallback(img);
+        }
+    }
+    
+    // Get format display name
+    getFormatName(mimeType) {
+        switch (mimeType) {
+            case 'image/webp': return 'WebP';
+            case 'image/jpeg': return 'JPEG';
+            case 'image/png': return 'PNG';
+            default: return 'WebP';
+        }
+    }
+    
+    // Helper method to load image and get dimensions
+    loadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+            img.src = src;
         });
     }
 }

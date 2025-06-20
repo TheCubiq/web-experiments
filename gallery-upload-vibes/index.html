@@ -17,10 +17,25 @@
             📱 <strong>Mobile Tip:</strong> For best results with many images, try uploading in smaller batches (20-30 at a time) to avoid memory issues.
         </div>
 
+        <div class="compression-settings">
+            <div class="setting-group">
+                <label for="qualitySlider">Compression Quality: <span id="qualityValue">80%</span></label>
+                <input type="range" id="qualitySlider" min="10" max="100" value="80" class="slider">
+            </div>
+            <div class="setting-group">
+                <label for="formatSelect">Output Format:</label>
+                <select id="formatSelect" class="format-select">
+                    <option value="image/webp">WebP (Best compression)</option>
+                    <option value="image/jpeg">JPEG (Good compatibility)</option>
+                    <option value="image/png">PNG (Lossless)</option>
+                </select>
+            </div>
+        </div>
+
         <div class="drop-zone" id="dropZone">
             <div class="drop-icon">📁</div>
             <h3>Drop images here or click to select</h3>
-            <p>Supports JPG, PNG, GIF - Will optimize to WebP</p>
+            <p>Supports JPG, PNG, GIF - Will optimize based on settings above</p>
             <input type="file" id="fileInput" multiple accept="image/*" title="Select image files">
         </div>
 
@@ -74,6 +89,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>

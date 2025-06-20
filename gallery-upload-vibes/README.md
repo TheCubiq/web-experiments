@@ -1,17 +1,44 @@
 # Image Gallery Optimizer
 
-A modern web application for optimizing and viewing image galleries with WebP compression.
+A modern web application for optimizing and viewing image galleries with WebP compression using the browser-image-compression library.
+
+## Features
+
+- **Advanced Compression**: Uses browser-image-compression library for superior image optimization
+- **WebP Output**: Converts images to WebP format for maximum compression
+- **Batch Processing**: Handles multiple images efficiently with progress tracking
+- **Mobile Optimized**: Adaptive batch sizes for mobile devices
+- **Real-time Preview**: View optimized images with before/after comparisons
+
+## Installation & Setup
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Start local server**:
+   ```bash
+   npm start
+   ```
+   Or manually:
+   ```bash
+   npx http-server -p 3000
+   ```
+
+3. **Open in browser**: Navigate to `http://localhost:3000`
 
 ## File Structure
 
 ```
 vibes-gallery-viewer/
+├── package.json          # Project dependencies
 ├── index.html              # Main HTML file
 ├── style.css              # All styles
 ├── app.js                 # Application entry point
 ├── js/
 │   ├── main.js           # Main ImageOptimizer class
-│   ├── image-processor.js # Image optimization and batch processing
+│   ├── image-processor.js # Image optimization with browser-image-compression
 │   ├── gallery.js        # Gallery display and navigation
 │   ├── file-handler.js   # File drag & drop handling
 │   ├── ui-manager.js     # Progress and stats UI management
@@ -43,13 +70,11 @@ Common utility functions for image processing, mobile detection, and formatting.
 
 - **Drag & Drop**: Drop images directly onto the interface
 - **Batch Processing**: Handles large image collections efficiently
-- **Smart Format Selection**: WebP for modern browsers, JPEG fallback for iOS
-- **WebP Polyfill**: Automatic format detection and fallback for iOS devices
+- **WebP Conversion**: Automatic optimization to WebP format
 - **Mobile Friendly**: Optimized batch sizes for mobile devices
 - **Gallery Navigation**: Keyboard and click navigation
 - **Real-time Stats**: Shows compression ratios and processing times
 - **Image Management**: Remove individual images from the collection
-- **Platform Awareness**: Shows appropriate warnings and tips for different devices
 
 ## Usage
 
@@ -60,32 +85,10 @@ Common utility functions for image processing, mobile detection, and formatting.
 5. Remove individual images with the × button
 6. Reset all images with the Reset button
 
-## Browser Compatibility & WebP Support
-
-The application automatically detects WebP support and provides smart fallbacks:
-
-### WebP Support Detection
-- **Modern Browsers**: Uses WebP format for optimal compression
-- **iOS/Safari**: Automatically falls back to JPEG for compatibility
-- **Legacy Browsers**: JPEG fallback ensures universal support
-
-### Platform-Specific Optimizations
-- **iOS Devices**: 
-  - Uses JPEG compression (85% quality)
-  - Shows user-friendly notice about format choice
-  - Optimized batch sizes for mobile performance
-- **Android/Desktop**: 
-  - Prefers WebP format for better compression
-  - Larger batch sizes for faster processing
-
-### Technical Implementation
-The WebP detection uses a small base64-encoded WebP image to test browser support:
-- If the test image loads successfully, WebP is supported
-- If it fails, the app falls back to JPEG compression
-- This ensures reliable detection across all platforms
+## Browser Compatibility
 
 Requires a modern browser with support for:
 - ES6 Modules
 - Canvas API
 - File API
-- Either WebP format support OR JPEG fallback capability
+- WebP format support
