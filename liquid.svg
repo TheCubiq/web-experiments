@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 500" color-interpolation-filters="sRGB" preserveAspectRatio="xMidYMid slice" xmlns:bx="https://boxy-svg.com">
+      <style>
+  .gallery {
+  will-change: transform;
+}
+
+.background {
+  filter: url(#pack-upper); 
+}
+
+.foreground {
+  mix-blend-mode: plus-lighter; 
+  filter: url(#pack-lower);
+}
+
+rect {
+  rx: auto;
+  ry: 0;
+  transition: ry 1s;
+  &amp;:hover {
+    ry: 55;
+  }
+}
+
+
+.wrapper {
+   filter: url(#blobby);
+
+&gt; .glass {
+  width: 90px; 
+  height: 90px; 
+  y: 200;
+  fill: #fff;
+}
+
+}
+  </style>
+      <g class="gallery" style="opacity: 1;">
+            <title>BG Elmulate</title>
+            <use href="#loop-image" width="750" height="500"/>
+            <image href="https://images.pexels.com/photos/1582458/pexels-photo-1582458.jpeg" width="750" height="500" y="500"/>
+            <image href="https://images.pexels.com/photos/11542516/pexels-photo-11542516.jpeg" width="750" height="500" y="999.806"/>
+            <image href="https://images.pexels.com/photos/3509971/pexels-photo-3509971.jpeg" width="750" height="562.117" y="1436.33"/>
+            <use href="#loop-image" width="750" height="500" transform="matrix(1, 0, 0, 1, 0, 1931)"/>
+            <animateTransform dur="30" type="translate" additive="sum" attributeName="transform" values="0 0;0 -1931" repeatCount="indefinite"/>
+      </g>
+      <g style="filter: url(&quot;#liquid-glass-new-chroma&quot;) url(&quot;#lighting&quot;) url(&quot;#drop-shadow-filter-0&quot;);">
+            <g class="background">
+                  <g class="gallery">
+                        <use href="#loop-image" width="750" height="500" style=""/>
+                        <image href="https://images.pexels.com/photos/1582458/pexels-photo-1582458.jpeg" width="750" height="500" y="500"/>
+                        <image href="https://images.pexels.com/photos/11542516/pexels-photo-11542516.jpeg" width="750" height="500" y="999.806"/>
+                        <image href="https://images.pexels.com/photos/3509971/pexels-photo-3509971.jpeg" width="750" height="562.117" y="1436.33"/>
+                        <use href="#loop-image" width="750" height="500" transform="matrix(1, 0, 0, 1, 0, 1931)"/>
+                        <animateTransform dur="30" type="translate" additive="sum" attributeName="transform" values="0 0;0 -1931" repeatCount="indefinite"/>
+                  </g>
+            </g>
+            <g class="foreground">
+                  <g class="wrapper">
+                        <rect x="125.057" y="83.37" width="500" height="330" fill="none"/>
+                        <rect x="194.275" class="glass">
+                              <animateTransform type="translate" additive="sum" attributeName="transform" values="0 -70;0 70;0 -70" dur="5s" keyTimes="0; 0.5; 1" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
+                        </rect>
+                        <rect x="260.435" class="glass">
+                              <animateTransform type="translate" additive="sum" attributeName="transform" values="0 -70;0 70;0 -70" dur="4.8s" keyTimes="0; 0.5; 1" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
+                        </rect>
+                        <rect x="327.014" class="glass">
+                              <animateTransform type="translate" additive="sum" attributeName="transform" values="0 -70;0 70;0 -70" dur="4.6s" keyTimes="0; 0.5; 1" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
+                        </rect>
+                        <rect x="396.943" class="glass">
+                              <animateTransform type="translate" additive="sum" attributeName="transform" values="0 -70;0 70;0 -70" dur="4.4s" keyTimes="0; 0.50505; 1" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
+                        </rect>
+                        <rect x="464.784" class="glass">
+                              <animateTransform type="translate" additive="sum" attributeName="transform" values="0 -70;0 70;0 -70" dur="4.2s" keyTimes="0; 0.5; 1" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
+                        </rect>
+                  </g>
+            </g>
+      </g>
+      <defs>
+            <filter xmlns="http://www.w3.org/2000/svg" id="lighting" x="-10%" y="-10%" width="120%" height="120%" filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+                  <feComposite result="composite-5" in="SourceAlpha" in2="none" operator="in"/>
+                  <feMorphology radius="3.5" operator="dilate" in="composite-5" result="effect5_innerShadow_1_2"/>
+                  <feOffset dx="3" dy="3" in="effect5_innerShadow_1_2" result="offset-4"/>
+                  <feGaussianBlur stdDeviation="12" in="offset-4" result="gaussian-blur-3"/>
+                  <feColorMatrix in="composite-5" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.58 0" result="color-matrix-7"/>
+                  <feComposite in2="color-matrix-7" operator="arithmetic" k2="-1" k3="1" in="gaussian-blur-3" result="composite-4"/>
+                  <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0" in="composite-4" result="color-matrix-8"/>
+                  <feMorphology radius="2" operator="dilate" in="composite-5" result="effect4_innerShadow_1_2"/>
+                  <feOffset dx="2" dy="2" in="effect4_innerShadow_1_2" result="offset-3"/>
+                  <feGaussianBlur stdDeviation="1" in="offset-3" result="gaussian-blur-2"/>
+                  <feColorMatrix in="composite-5" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.74 0" result="color-matrix-5"/>
+                  <feComposite in2="color-matrix-5" operator="arithmetic" k2="-1" k3="1" in="gaussian-blur-2" result="composite-3"/>
+                  <feColorMatrix type="matrix" values="0 0 0 0 0.701961 0 0 0 0 0.701961 0 0 0 0 0.701961 0 0 0 1.09 0" in="composite-3" result="color-matrix-6"/>
+                  <feMorphology radius="2" operator="dilate" in="composite-5" result="effect3_innerShadow_1_2"/>
+                  <feOffset dx="-2" dy="-2" in="effect3_innerShadow_1_2" result="offset-2"/>
+                  <feGaussianBlur stdDeviation="2" in="offset-2" result="gaussian-blur-1"/>
+                  <feColorMatrix in="composite-5" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0" result="color-matrix-3"/>
+                  <feComposite in2="color-matrix-3" operator="arithmetic" k2="-1" k3="1" in="gaussian-blur-1" result="composite-2"/>
+                  <feColorMatrix type="matrix" values="0 0 0 0 0.701961 0 0 0 0 0.701961 0 0 0 0 0.701961 0 0 0 1 0" in="composite-2" result="color-matrix-4"/>
+                  <feMorphology radius="0" operator="erode" in="composite-5" result="effect2_innerShadow_1_2"/>
+                  <feOffset in="effect2_innerShadow_1_2" result="offset-1"/>
+                  <feColorMatrix in="composite-5" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="color-matrix-1"/>
+                  <feComposite in2="color-matrix-1" operator="arithmetic" k2="-1" k3="1" in="offset-1" result="composite-1"/>
+                  <feColorMatrix type="matrix" values="0 0 0 0 0.6 0 0 0 0 0.6 0 0 0 0 0.6 0 0 0 1 0" in="composite-1" result="color-matrix-2"/>
+                  <feColorMatrix in="composite-5" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="hardAlpha"/>
+                  <feOffset in="hardAlpha" result="offset-0"/>
+                  <feGaussianBlur stdDeviation="6" in="offset-0" result="gaussian-blur-0"/>
+                  <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" in="gaussian-blur-0" result="composite-0"/>
+                  <feColorMatrix type="matrix" values="0 0 0 0 0.94902 0 0 0 0 0.94902 0 0 0 0 0.94902 0 0 0 0.1 0" in="composite-0" result="color-matrix-0"/>
+                  <feFlood result="flood-0" style="flood-color: rgb(255, 255, 255); flood-opacity: 0.07;"/>
+                  <feBlend result="blend-4" in="SourceGraphic" in2="flood-0" mode="overlay"/>
+                  <feComposite result="composite-6" in="blend-4" in2="SourceGraphic" operator="atop"/>
+                  <feBlend mode="plus-darker" in2="composite-6" result="effect1_innerShadow_1_2" in="color-matrix-0"/>
+                  <feBlend mode="overlay" in2="effect1_innerShadow_1_2" result="blend-0" in="color-matrix-2"/>
+                  <feBlend mode="plus-lighter" in2="blend-0" result="blend-1" in="color-matrix-4"/>
+                  <feBlend mode="hard-light" in2="blend-1" result="blend-2" in="color-matrix-6"/>
+                  <feBlend mode="normal" in2="blend-2" result="blend-3" in="color-matrix-8"/>
+            </filter>
+            <filter id="pack-upper">
+                  <feColorMatrix type="matrix" id="pack-upper-quantize" result="quantized" values="&#10;                0.4980392156862745 0 0 0 0&#10;                0 0.4980392156862745 0 0 0&#10;                0 0 0.4980392156862745 0 0&#10;                0 0 0 1 0&#10;            "/>
+                  <feComposite in="quantized" operator="over" result="composited"/>
+                  <feColorMatrix in="composited" type="matrix" id="pack-upper-shift" values="&#10;                2 0 0 0 0&#10;                0 2 0 0 0&#10;                0 0 2 0 0&#10;                0 0 0 1 0&#10;            "/>
+            </filter>
+            <filter id="pack-lower">
+                  <title>pack lower</title>
+                  <feColorMatrix type="matrix" id="pack-lower-matrix" values="&#10;                0.00392156862745098 0 0 0 0&#10;                0 0.00392156862745098 0 0 0&#10;                0 0 0.00392156862745098 0 0&#10;                0 0 0 1 0&#10;            "/>
+            </filter>
+            <filter id="liquid-glass-new-chroma" x="0%" y="0%" width="100%" height="100%">
+                  <feComponentTransfer result="SourceBackground" in="SourceGraphic">
+                        <feFuncR type="discrete" tableValues="0.000 0.008 0.016 0.024 0.031 0.039 0.047 0.055 0.063 0.071 0.079 0.087 0.094 0.102 0.110 0.118 0.126 0.134 0.142 0.150 0.157 0.165 0.173 0.181 0.189 0.197 0.205 0.213 0.220 0.228 0.236 0.244 0.252 0.260 0.268 0.276 0.283 0.291 0.299 0.307 0.315 0.323 0.331 0.339 0.346 0.354 0.362 0.370 0.378 0.386 0.394 0.402 0.409 0.417 0.425 0.433 0.441 0.449 0.457 0.465 0.472 0.480 0.488 0.496 0.504 0.512 0.520 0.528 0.535 0.543 0.551 0.559 0.567 0.575 0.583 0.591 0.598 0.606 0.614 0.622 0.630 0.638 0.646 0.654 0.661 0.669 0.677 0.685 0.693 0.701 0.709 0.717 0.724 0.732 0.740 0.748 0.756 0.764 0.772 0.780 0.787 0.795 0.803 0.811 0.819 0.827 0.835 0.843 0.850 0.858 0.866 0.874 0.882 0.890 0.898 0.906 0.913 0.921 0.929 0.937 0.945 0.953 0.961 0.969 0.976 0.984 0.992 1.000"/>
+                        <feFuncG type="discrete" tableValues="0.000 0.008 0.016 0.024 0.031 0.039 0.047 0.055 0.063 0.071 0.079 0.087 0.094 0.102 0.110 0.118 0.126 0.134 0.142 0.150 0.157 0.165 0.173 0.181 0.189 0.197 0.205 0.213 0.220 0.228 0.236 0.244 0.252 0.260 0.268 0.276 0.283 0.291 0.299 0.307 0.315 0.323 0.331 0.339 0.346 0.354 0.362 0.370 0.378 0.386 0.394 0.402 0.409 0.417 0.425 0.433 0.441 0.449 0.457 0.465 0.472 0.480 0.488 0.496 0.504 0.512 0.520 0.528 0.535 0.543 0.551 0.559 0.567 0.575 0.583 0.591 0.598 0.606 0.614 0.622 0.630 0.638 0.646 0.654 0.661 0.669 0.677 0.685 0.693 0.701 0.709 0.717 0.724 0.732 0.740 0.748 0.756 0.764 0.772 0.780 0.787 0.795 0.803 0.811 0.819 0.827 0.835 0.843 0.850 0.858 0.866 0.874 0.882 0.890 0.898 0.906 0.913 0.921 0.929 0.937 0.945 0.953 0.961 0.969 0.976 0.984 0.992 1.000"/>
+                        <feFuncB type="discrete" tableValues="0.000 0.008 0.016 0.024 0.031 0.039 0.047 0.055 0.063 0.071 0.079 0.087 0.094 0.102 0.110 0.118 0.126 0.134 0.142 0.150 0.157 0.165 0.173 0.181 0.189 0.197 0.205 0.213 0.220 0.228 0.236 0.244 0.252 0.260 0.268 0.276 0.283 0.291 0.299 0.307 0.315 0.323 0.331 0.339 0.346 0.354 0.362 0.370 0.378 0.386 0.394 0.402 0.409 0.417 0.425 0.433 0.441 0.449 0.457 0.465 0.472 0.480 0.488 0.496 0.504 0.512 0.520 0.528 0.535 0.543 0.551 0.559 0.567 0.575 0.583 0.591 0.598 0.606 0.614 0.622 0.630 0.638 0.646 0.654 0.661 0.669 0.677 0.685 0.693 0.701 0.709 0.717 0.724 0.732 0.740 0.748 0.756 0.764 0.772 0.780 0.787 0.795 0.803 0.811 0.819 0.827 0.835 0.843 0.850 0.858 0.866 0.874 0.882 0.890 0.898 0.906 0.913 0.921 0.929 0.937 0.945 0.953 0.961 0.969 0.976 0.984 0.992 1.000"/>
+                  </feComponentTransfer>
+                  <feGaussianBlur result="gaussian-blur-3" in="SourceBackground" stdDeviation="1"/>
+                  <feColorMatrix result="color-matrix-5" in="gaussian-blur-3" type="saturate" values="1"/>
+                  <feBlend result="blend-3" in="color-matrix-5" in2="none"/>
+                  <feComponentTransfer in="SourceGraphic" result="component-transfer-0">
+                        <feFuncR type="discrete" tableValues="0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000"/>
+                        <feFuncG type="discrete" tableValues="0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000"/>
+                        <feFuncB type="discrete" tableValues="0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000 0.000 1.000"/>
+                  </feComponentTransfer>
+                  <feColorMatrix type="luminanceToAlpha" in="component-transfer-0" result="color-matrix-1"/>
+                  <feBlend result="blend-4" in="color-matrix-1" in2="none"/>
+                  <feGaussianBlur stdDeviation="4" in="blend-4" result="gaussian-blur-0"/>
+                  <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21.96 -9.33" in="gaussian-blur-0" result="color-matrix-2"/>
+                  <feComposite result="SourceMask" in="color-matrix-2" in2="none"/>
+                  <feGaussianBlur result="gaussian-blur-2" in="SourceMask" stdDeviation="6"/>
+                  <feColorMatrix in="gaussian-blur-2" result="grayscale" type="matrix" values="0.299 0.587 0.114 0 0&#10;                0.299 0.587 0.114 0 0&#10;                0.299 0.587 0.114 0 0&#10;                0     0     0     1 0"/>
+                  <feConvolveMatrix in="grayscale" result="gradientX" order="3" kernelMatrix="1,0,-1,2,0,-2,1,0,-1" divisor="0.5" bias="0.5"/>
+                  <feColorMatrix in="gradientX" result="redFromX" type="matrix" values="1 1 1 0 0&#10;                0 0 0 0 0&#10;                0 0 0 0 0&#10;                0 0 0 1 0"/>
+                  <feConvolveMatrix in="grayscale" result="gradientY" order="3" kernelMatrix="1,2,1,0,0,0,-1,-2,-1" divisor="0.5" bias="0.5"/>
+                  <feColorMatrix in="gradientY" result="greenFromY" type="matrix" values="0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 1 0"/>
+                  <feComposite in="redFromX" in2="greenFromY" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="redGreen"/>
+                  <feGaussianBlur result="gaussian-blur-1" in="redGreen" stdDeviation="2"/>
+                  <feFlood result="flood-0" style=""/>
+                  <feComposite result="composite-0" in="gaussian-blur-1" in2="flood-0"/>
+                  <feComposite result="composite-2" in="composite-0" in2="SourceMask" operator="in"/>
+                  <feFlood result="flood-1" style="flood-color: rgb(128, 128, 128);"/>
+                  <feComposite result="composite-1" in="composite-2" in2="flood-1"/>
+                  <feDisplacementMap result="displacement-map-2" in="blend-3" in2="composite-1" scale="75" xChannelSelector="R" yChannelSelector="G"/>
+                  <feColorMatrix result="color-matrix-0" in="displacement-map-2" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"/>
+                  <feDisplacementMap result="displacement-map-1" in="blend-3" in2="composite-1" scale="80" xChannelSelector="R" yChannelSelector="G"/>
+                  <feColorMatrix result="color-matrix-3" in="displacement-map-1" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+                  <feDisplacementMap result="displacement-map-0" in="blend-3" in2="composite-1" scale="85" xChannelSelector="R" yChannelSelector="G"/>
+                  <feColorMatrix result="color-matrix-4" in="displacement-map-0" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+                  <feBlend result="blend-0" in="color-matrix-4" in2="none" mode="normal"/>
+                  <feBlend result="blend-1" in="color-matrix-3" in2="blend-0" mode="screen"/>
+                  <feBlend result="blend-2" in="color-matrix-0" in2="blend-1" mode="screen"/>
+                  <feColorMatrix result="color-matrix-6" in="blend-2" type="saturate" values="1"/>
+                  <feComposite result="composite-3" in="color-matrix-6" in2="SourceMask" operator="in"/>
+                  <feComposite result="composite-4" in="composite-3" in2="SourceBackground"/>
+                  <feComposite result="composite-5" in="composite-3" in2="none" operator="arithmetic" k2="1"/>
+            </filter>
+            <filter id="blobby">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="gaussian-blur-0"/>
+                  <feColorMatrix mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 200 -100" in="gaussian-blur-0" result="color-matrix-0"/>
+                  <feComposite in="SourceGraphic" operator="atop" in2="color-matrix-0" result="composite-0"/>
+            </filter>
+            <symbol id="loop-image" viewBox="0 0 750 500" preserveAspectRatio="xMidYMid slice">
+                  <image href="https://cdn.pixabay.com/photo/2025/07/14/13/00/basilisk-9713946_1280.jpg" width="750" height="500"/>
+            </symbol>
+            <filter id="round-edges-filter-0" bx:preset="round-edges 1 6.6" color-interpolation-filters="sRGB" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="6.6 6.6"/>
+                  <feColorMatrix mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 200 -100"/>
+                  <feComposite in="SourceGraphic" operator="atop"/>
+            </filter>
+            <filter id="drop-shadow-filter-0" bx:preset="drop-shadow 1 0 0 11 0.27 #000000db" color-interpolation-filters="sRGB" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="11"/>
+                  <feOffset dx="0" dy="0"/>
+                  <feComponentTransfer result="offsetblur">
+                        <feFuncA id="spread-ctrl" type="linear" slope="0.54"/>
+                  </feComponentTransfer>
+                  <feFlood flood-color="#000000db"/>
+                  <feComposite in2="offsetblur" operator="in"/>
+                  <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+            </filter>
+      </defs>
+</svg>
